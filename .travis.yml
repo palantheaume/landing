@@ -1,0 +1,31 @@
+language: go
+
+go:
+  - 1.7
+
+sudo: false
+
+git:
+  depth: 10
+
+branches:
+  only:
+    - master
+
+install:
+  - go get github.com/kardianos/govendor
+  - govendor get github.com/gohugoio/hugo
+  - go install github.com/gohugoio/hugo
+
+script:
+  - hugo
+
+deploy:
+  - provider: pages
+    target_branch: gh-pages
+    local_dir: public
+    edge: true
+    skip_cleanup: true
+    github_token: ${GITHUB_TOKEN}
+    on:
+      branch: master
